@@ -1,0 +1,71 @@
+<!-- app/views/products/index.html.erb -->
+
+<h1>Products</h1>
+
+<!-- Search and Category Filter Form -->
+<%= form_with url: products_path, method: :get, local: true, class: "mb-4" do |form| %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= form.label :query, "Search Products:", class: "form-label" %>
+      <%= form.text_field :query, value: params[:query], class: "form-control" %>
+    </div>
+    
+    <div class="col-md-4">
+      <%= form.label :category_id, "Filter by Category:", class: "form-label" %>
+      <%= form.select :category_id, options_for_select(@categories.map { |c| [c.name, c.id] }, params[:category_id]), include_blank: "All Categories", class: "form-select" %>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+      <%= form.submit "Filter", class: "btn btn-primary w-100" %>
+    </div>
+  </div>
+<% end %>
+
+<% if current_user&.admin? %>
+  <%= link_to 'New Product', new_product_path, class: "btn btn-success mb-3" %>
+<% end %>
+
+<!-- Bootstrap Card Grid -->
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3"> <!-- Responsive grid -->
+      <div class="card h-100 shadow-sm border-0"> <!-- Ensures uniform height -->
+
+        <!-- Product Image -->
+        <div class="image-container">
+         <% if product.images.attached? %>
+           <%= image_tag url_for(product.images.first), class: "card-img-top", alt: product.name %>
+         <% else %>
+           <img src="https://via.placeholder.com/250x250" class="card-img-top" alt="No Image Available">
+         <% end %>
+        </div>
+        
+        <div class="card-body text-center d-flex flex-column">
+          <h5 class="card-title"><%= product.name %></h5>
+          <p class="card-text"><strong>Price:</strong> $<%= product.price %></p>
+          <p class="card-text"><strong>Stock:</strong> <%= product.stock_quantity %></p>
+          <p class="card-text"><strong>Category:</strong> <%= product.category&.name || 'No Category' %></p>
+
+          <!-- Centered View Button -->
+          <div class="mt-auto text-center">
+            <a href="<%= product_path(product) %>" class="btn btn-primary">Show</a>
+          </div>
+
+          <% if current_user&.admin? %>
+            <div class="text-center mt-2">
+              <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
+              <%= form_with(model: product, method: :delete, local: true) do %>
+                <%= submit_tag 'Delete', data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+  <%= paginate @products %>
+</div>

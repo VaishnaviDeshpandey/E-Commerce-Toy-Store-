@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <h2 class="mb-4">🛒 Your Shopping Cart</h2>
+
+  <% if @cart_items.empty? %>
+    <div class="alert alert-warning text-center">
+      Your cart is empty. <%= link_to "Continue Shopping", products_path, class: "btn btn-primary btn-sm" %>
+    </div>
+  <% else %>
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cart_items.each do |item| %>
+          <tr>
+            <td><%= item[:product].name %></td>
+            <td>
+              <%= form_with url: update_cart_path(item[:product].id), method: :patch, local: true, class: "d-flex align-items-center" do |f| %>
+                <%= f.number_field :quantity, value: item[:quantity], min: 1, class: "form-control form-control-sm me-2", style: "width: 60px;" %>
+                <%= f.submit "Update", class: "btn btn-outline-primary btn-sm" %>
+              <% end %>
+            </td>
+            <td><%= number_to_currency(item[:product].price) %></td>
+            <td><%= number_to_currency(item[:product].price * item[:quantity]) %></td>
+            <td>
+              <%= button_to 'Remove', remove_from_cart_path(item[:product].id), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: 'Are you sure you want to remove this item?' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h4>Total: <%= number_to_currency(total_price) %></h4>
+      <%= link_to 'Proceed to Checkout', checkout_path, class: "btn btn-success btn-lg" %>
+    </div>
+  <% end %>
+</div>

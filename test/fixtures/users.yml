@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+john_doe:
+  name: John Doe
+  email: johndoe@example.com
+  encrypted_password: $2a$12$AUdrroCM3ZuamQVfe66uIuZFgAC1PWl9gegiJKQ5HVDZsoimftZca
+  role: user
+
+admin_user:
+  name: Admin User
+  email: admin@example.com
+  encrypted_password: $2a$12$ADwY7n0Y8JysXHfzuZ3WNOIm2sZnzC5DvyewAAdiqj2Yz6hxC2.au
+  role: admin
+
+
+
+
+
+
+
+

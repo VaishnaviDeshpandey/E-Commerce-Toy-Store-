@@ -1,0 +1,31 @@
+<div class="container text-center mt-5">
+  <h1 class="text-success fw-bold">
+    <i class="bi bi-check-circle-fill"></i> Thank You for Your Order!
+  </h1>
+  <p class="lead text-muted">Your order has been successfully placed.</p>
+
+  <div class="card shadow-sm p-4 mt-4">
+    <h2 class="fw-bold"><i class="bi bi-box-seam"></i> Order Details</h2>
+    <p><strong><i class="bi bi-hash"></i> Order ID:</strong> <%= @order.id %></p>
+    <p><strong><i class="bi bi-cash-stack"></i> Total Price:</strong> <%= number_to_currency(@order.total_price) %></p>
+
+    <h3 class="mt-3 fw-bold"><i class="bi bi-geo-alt"></i> Shipping Address:</h3>
+    <p class="text-muted"><%= @order.shipping_address %></p>
+
+    <p><strong><i class="bi bi-clock"></i> Status:</strong> 
+      <span class="badge bg-warning text-dark"><%= @order.status %></span>
+    </p>
+    
+    <p><strong><i class="bi bi-credit-card"></i> Payment Status:</strong> 
+      <span class="badge bg-info text-white"><%= @order.payment_status %></span>
+    </p>
+
+    <h3 class="mt-3 fw-bold"><i class="bi bi-wallet2"></i> Payment Method:</h3>
+    <p class="text-muted"><%= @order.payment_method %></p>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to '<i class="bi bi-cart"></i> Continue Shopping'.html_safe, root_path, class: 'btn btn-primary btn-lg' %>
+  </div>
+</div>
+

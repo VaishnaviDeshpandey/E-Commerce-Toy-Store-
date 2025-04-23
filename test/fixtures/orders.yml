@@ -1,0 +1,14 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: john_doe
+  shipping_address: "123 Street"
+  total_price: 100.00
+  status: "Pending"
+
+two:
+  user: admin_user
+  shipping_address: "456 Avenue"
+  total_price: 200.00
+  status: "Completed"
+

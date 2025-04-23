@@ -1,0 +1,25 @@
+<h1>Order Details</h1>
+
+<p><strong>Order ID:</strong> <%= @order.id %></p>
+<p><strong>Customer Name:</strong> <%= @order.customer_name %></p>
+<p><strong>Shipping Address:</strong> <%= @order.shipping_address %></p>
+<p><strong>Total Price:</strong> <%= number_to_currency(@order.total_price) %></p>
+<p><strong>Status:</strong> <%= @order.status %></p>
+<p><strong>Payment Status:</strong> <%= @order.payment_status %></p>
+
+<h3>Ordered Items</h3>
+<ul>
+  <% @order.order_items.each do |item| %>
+    <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.price) %></li>
+  <% end %>
+</ul>
+
+<% if current_user&.admin? %>
+  <% if @order.payment_status == "Pending" %>
+    <%= button_to "Mark as Paid", confirm_payment_order_path(@order), method: :patch, class: "btn btn-success" %>
+  <% else %>
+    <p>Payment has been completed.</p>
+  <% end %>
+<% end %>
+
+<%= link_to "Back to Home", root_path, class: "btn btn-secondary" %>
